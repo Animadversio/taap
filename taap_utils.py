@@ -146,6 +146,7 @@ def lowerBound(m, n, field):
     if m>=n: #Trivial case
         return 0.0
     
+    # Welch, "Lower bounds on the maximum cross correlation of signals (Corresp.)", 1974
     welch_best = 0.0
     if n>m and (field=="real" or field=="complex"): 
         degree_welch = 1
@@ -158,30 +159,35 @@ def lowerBound(m, n, field):
             rad = (n/binom -1.0)/(n-1.0)
             welch_k = max(rad,0.0)**(1.0/(2.0*degree_welch))
     
+    # Rankin, "The Closest Packing of Spherical Caps in n Dimensions", 1955
     orthoplex = 0.0
     if n>m*(m+1)/2 and field=="real":
         orthoplex = np.sqrt(1/m)
     elif n>m**2 and field=="complex":
         orthoplex = np.sqrt(1/m)
     
+    # Kabatiansky and Levenshtein, "On Bounds for Packings on a Sphere and in Space", 1978
     levenshtein = 0.0
     if n>m*(m+1)/2 and field=="real":
         levenshtein = np.sqrt((3*n-m**2-2*m)/((m+2)*(n-m)))
     elif n>m**2 and field=="complex":
         levenshtein = np.sqrt((2*n-m**2-m)/((m+1)*(n-m)))
     
+    # Bukh and Cox, "Nearly orthogonal vectors and small antipodal spherical codes", 2020
     buhk_cox = 0.0
     if n>m and field=="real": 
         buhk_cox = (n-m)*(n-m+1)/(2*n + (n**2 - m*n - n)*np.sqrt(2+n-m) - (n-m)*(n-m+1))
     elif n>m and field=="complex": 
         buhk_cox = (n-m)**2/(n + (n**2 - m*n - n)*np.sqrt(1+n-m) - (n-m)**2)
     
+    # Xia et al., "Achieving the Welch bound with difference sets", 2005
     xia = 0.0
     if m==1 and (field=="real" or field=="complex"):
         xia=1
     elif np.log2(n)>m-1 and (field=="real" or field=="complex"):
         xia = 1 - 2*n**(-1/(m-1))
     
+    # Bajwa et al., "Two are better than one: Fundamental parameters of frame coherence", 2012
     bajwa = 0.0
     if field=="real":
         coeff = 2.0**(2-m)/n* 1/scipy.special.beta(m/2, m/2)
