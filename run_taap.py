@@ -45,8 +45,8 @@ beta    = 2.0
 N_budg  = 100000
 tau     = 10**(-6)
 N_p     = 100
-eps_p   = 10**(-1)
-eps_s   = 10**(-3)
+eps_p   = 10**(-3)
+eps_s   = 10**(-1)
 accel   = True
 verbose = True
 
