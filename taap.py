@@ -25,7 +25,7 @@ from taap_utils import sig_proj_convex, spec_proj_positive_truncated, normalizeG
 
 def taap(F_0, m, n, field, beta=2.0, N_budg=100000, tau=10**(-6), N_p=100, eps_p=10**(-1), eps_s=10**(-3), acceleration=True, verbose=True):
     if verbose == True:
-        print("mu_0_AAP, \tmu_AAP, \ttarget, \tdelta_t, \tN_AAP, \tN_tot")
+        print("mu_0_AAP \tmu_AAP \t\ttarget \t\tdelta_t \tN_AAP \tN_tot")
     
     N_tot = 0
     
@@ -69,7 +69,7 @@ def taap(F_0, m, n, field, beta=2.0, N_budg=100000, tau=10**(-6), N_p=100, eps_p
             N_tot += 1
         
         if verbose == True:
-            print("%.6f, \t%.6f, \t%.6f, \t%.6f, \t%d, \t%d" %(mu_best, mu_AAP, t, delta_t, k-1, N_tot))
+            print("%.6f \t%.6f \t%.6f \t%.6f \t%-6d \t%-6d" %(mu_best, mu_AAP, t, delta_t, k-1, N_tot))
         
         if mu_AAP - t < eps_s*delta_t:
             t = np.max([mu_AAP - beta*delta_t, theoretical_lower_bound])
