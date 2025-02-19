@@ -55,7 +55,7 @@ def taap(F_0, m, n, field, beta=2.0, N_budg=100000, tau=10**(-6), N_p=100, eps_p
             else:
                 G_k = spec_proj_positive_truncated(sig_proj_convex(G_k_1, n, field, t), m, n, field)
             
-            mu_k = mutualCoherenceGram(G_k)
+            mu_k = mutualCoherenceGram(normalizeGram(G_k))
             
             if mu_AAP - mu_k > eps_p * delta_t:
                 G_AAP = G_k

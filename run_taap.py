@@ -26,7 +26,7 @@ from taap import taap
 ##############################################
 
 m = 64
-n = 96
+n = 128
 field = "real"
 # field = "complex"
 print("Dimensions: \t(%d, %d)" %(m,n))
