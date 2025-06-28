@@ -10,6 +10,11 @@ bastien.massion@uclouvain.be
 Prof. Estelle MASSART
 UCLouvain, ICTEAM
 estelle.massart@uclouvain.be
+
+Adapted to torch by Binxu Wang
+Harvard, Kempner Institute
+binxu_wang@hms.harvard.edu
+28 June 2025
 """
 
 import numpy as np
