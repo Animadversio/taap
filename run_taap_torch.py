@@ -28,7 +28,7 @@ from taap_torch import taap
 
 m = 768
 # n = 4096
-n = 12000
+n = 32000
 field = "real"
 # field = "complex"
 print("Dimensions: \t(%d, %d)" %(m,n))
@@ -44,7 +44,7 @@ print("Lower bound: \t%.6f" %lb)
 ##############################################
 
 beta    = 2.0
-N_budg  = 1000
+N_budg  = 2000
 tau     = 10**(-6)
 N_p     = 50
 eps_p   = 10**(-3)
@@ -52,6 +52,7 @@ eps_s   = 10**(-1)
 accel   = True
 verbose = True
 device = "cuda"
+print_every = 10
 
 ##############################################
 #
@@ -70,7 +71,7 @@ for run_index in range(n_runs):
     mu_0 = mutualCoherence(F_0[run_index], field)
     
     start_time = time.time()
-    F_run[run_index], mu_run[run_index], N_tot_run[run_index] = taap(F_0[run_index], m, n, field, beta=beta, N_budg=N_budg, tau=tau, N_p=N_p, eps_p=eps_p, eps_s=eps_s, acceleration=accel, verbose=verbose, device=device)
+    F_run[run_index], mu_run[run_index], N_tot_run[run_index] = taap(F_0[run_index], m, n, field, beta=beta, N_budg=N_budg, tau=tau, N_p=N_p, eps_p=eps_p, eps_s=eps_s, acceleration=accel, verbose=verbose, print_every=print_every, device=device)
     end_time = time.time()
     duration_run[run_index] = end_time-start_time
     time_per_it_run[run_index] = duration_run[run_index]/N_tot_run[run_index]
@@ -79,5 +80,10 @@ for run_index in range(n_runs):
     print("Final mutual coherence: %.6f" %mu_run[run_index])
     # print(F_run[run_index])
     print()
+
+save_path = "/n/holylfs06/LABS/kempner_fellow_binxuwang/Users/binxuwang/Projects/Grassmannian"
+th.save(F_run, save_path + "/F_run_768_32000.pt")
+th.save({"duration_run":duration_run, "time_per_it_run":time_per_it_run, "mu_run":mu_run, "N_tot_run":N_tot_run}, 
+        save_path + "/taap_results_768_32000.pt")
 
 
