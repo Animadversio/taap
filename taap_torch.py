@@ -115,6 +115,7 @@ from taap_utils_torch import initializeUnitFrame, mutualCoherence, lowerBound
 
 def run_taap_torch(m=16, n=128, 
                    field="real", # "real" or "complex"
+                   n_runs = 1,
                    beta=2.0, 
                    N_budg=100000, 
                    tau=10**(-6), 
@@ -137,7 +138,6 @@ def run_taap_torch(m=16, n=128,
     #
     ##############################################
 
-    n_runs = 1
     F_0, F_run = initializeUnitFrame(m, n, field, n_runs=n_runs)
     mu_run = th.zeros(n_runs)
     N_tot_run = th.zeros(n_runs)
@@ -157,5 +157,6 @@ def run_taap_torch(m=16, n=128,
         print("Final mutual coherence: %.6f" %mu_run[run_index])
         # print(F_run[run_index])
         print()
+    return F_run, mu_run, N_tot_run, duration_run, time_per_it_run
 
 
