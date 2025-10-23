@@ -86,6 +86,8 @@ def constructGram(F, field):
 
 def reconstructFrame(G, m, n, field):
     positive_spectrum, Q = torch.linalg.eigh(G)
+    # ensure the positive spectrum is non-negative
+    positive_spectrum = positive_spectrum.clamp(min=0)
     if field == "real":
         F = torch.diag(torch.sqrt(positive_spectrum[n-m:])) @ Q[:,n-m:].T
     elif field == "complex":
