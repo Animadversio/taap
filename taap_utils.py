@@ -79,6 +79,8 @@ def constructGram(F, field):
 
 def reconstructFrame(G, m, n, field):
     positive_spectrum, Q = np.linalg.eigh(G)
+    # ensure the positive spectrum is non-negative
+    positive_spectrum = np.maximum(positive_spectrum, 0)
     if field == "real":
         F = np.diag(np.sqrt(positive_spectrum[n-m:]))@Q[:,n-m:].T
     elif field == "complex":

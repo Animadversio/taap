@@ -58,7 +58,9 @@ def normalizeGram(G):
     return GHat
 
 def normalizeFrame(F):
-    Fhat = F @ torch.diag(1/torch.norm(F, dim=0))
+    # make the type and device consistent esp. for complex tensors
+    one = torch.ones((), dtype=F.dtype, device=F.device) 
+    Fhat = F @ torch.diag(one / torch.norm(F, dim=0))
     return Fhat
 
 
@@ -84,10 +86,13 @@ def constructGram(F, field):
 
 def reconstructFrame(G, m, n, field):
     positive_spectrum, Q = torch.linalg.eigh(G)
+    # ensure the positive spectrum is non-negative
+    positive_spectrum = positive_spectrum.clamp(min=0)
     if field == "real":
         F = torch.diag(torch.sqrt(positive_spectrum[n-m:])) @ Q[:,n-m:].T
     elif field == "complex":
-        F = torch.diag(torch.sqrt(positive_spectrum[n-m:])) @ Q[:,n-m:].T.conj()
+        # make the type and device consistent esp. for complex tensors
+        F = torch.diag(torch.sqrt(positive_spectrum[n-m:])).to(Q.dtype) @ Q[:,n-m:].T.conj()
     return F
 
 
